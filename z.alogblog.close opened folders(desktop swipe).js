@@ -73,6 +73,7 @@ setTimeout( function() {
 		( dt.translateIntoScreenCoordY(statusBar.getPositionY()) == desktop_height ? DOWN : UP );
 
 	if ( cache[STATUS_BAR_STATE] == DOWN ) {
+		// close START folder and its subfolder
 		if ( startButton.isOpen() ) {
 			items = startButton.getContainer().getItems();
 			for( i=0; i < items.getLength(); i++ ) {
@@ -84,7 +85,7 @@ setTimeout( function() {
 			}
 			startButton.close();
 		}
-		
+		// close 1x1 sized 'date'.
 		items = statusBarContainer.getItems();
 		for ( i=0; i<items.getLength(); i++ ) {
 			it = items.getAt(i);

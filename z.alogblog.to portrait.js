@@ -10,6 +10,7 @@ var LEFT = 1;
 var WIN7_DESKTOP = 'w7dt';
 var START_BUTTON = 'sBtn';
 var STATUS_BAR = 'sBar';
+var SSTATUS_BAR = 'ssBar';
 var STATUS_BAR_STATE = 'sBarState';
 var MOVE_SBAR_ONLY = 'mSbarO';
 var PANEL1x1 = 'date';
@@ -29,7 +30,7 @@ var F_WH = "f.wH";
 var FOLDER_TYPE = 'Folder';
 
 // local variables.
-var dt, startButton, tag, statusBar;
+var dt, startButton, tag, statusBar, sStatusBarContainer;
 var statusBarHeight, subFolderXfromLeft, startButtonPopupYfromTop;
 var folder, folder1x1XfromLeft, folder1x1YfromTop;
 var i, it, items, cache;
@@ -55,6 +56,14 @@ function getObjects() {
 	else {
 		statusBar = dt.getItemByLabel(STATUS_BAR);
 		cache[STATUS_BAR] = statusBar;
+	}
+
+	if ( cache[SSTATUS_BAR] ) {
+		sStatusBarContainer = cache[SSTATUS_BAR];
+	}
+	else {
+		sStatusBarContainer = statusBar.getContainer().getItemByLabel(SSTATUS_BAR).getContainer();
+		cache[SSTATUS_BAR] = sStatusBarContainer;
 	}
 
 	if ( cache[START_BUTTON] ) {
@@ -91,7 +100,7 @@ function getValues() {
 		subFolderXfromLeft = cache[PX];
 		startButtonPopupYfromTop = cache[PY];
 		folder1x1XfromLeft = cache[PX2];
-		folder1x1YfromTop = cache[PY2];	
+		folder1x1YfromTop = cache[PY2];
 	}
 	else {
 		tag = statusBar.getTag();
@@ -112,6 +121,7 @@ function getValues() {
 			startButtonPopupYfromTop = Math.round(dtHeight - startPopupHeight - statusBarHeight);
 			folder1x1XfromLeft = Math.round( startPopupPos == RIGHT ? 0: dtWidth - fc.getWidth() );
 			folder1x1YfromTop  = Math.round( dtHeight - statusBarHeight - fc.getHeight() );
+			
 		}
 		else {
 			tag = JSON.parse( tag );
@@ -163,6 +173,8 @@ function main() {
 		// move up the desktop.
 		dt.setPosition(0, statusBarHeight);
 	}
+	// 4.
+	sStatusBarContainer.setPosition(sStatusBarContainer.getCellWidth()*4, 0);
 }
 
 main();
