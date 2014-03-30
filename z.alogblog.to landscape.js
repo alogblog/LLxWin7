@@ -16,6 +16,7 @@ var MOVE_SBAR_ONLY = 'mSbarO';
 var PANEL1x1 = 'date';
 var FOLDER_IN_PANEL1x1 = 'folder1x1';
 var PKG = 'alogblog';
+var EXIT_SCRIPT = -1;
 
 // LL properties.
 var LH = 'Lh';
@@ -73,7 +74,7 @@ function getObjects() {
 		try {
 			startButton = statusBar.getContainer().getItemByLabel(START_BUTTON);
 		} catch(e) {
-			Android.makeNewToast("Not found 'START button'", true).show();
+			Android.makeNewToast("Not found 'START button'", false).show();
 			return;
 		}
 		cache[START_BUTTON] = startButton;
@@ -86,7 +87,7 @@ function getObjects() {
 		try {
 			folder = statusBar.getContainer().getItemByLabel(PANEL1x1).getContainer().getItemByLabel(FOLDER_IN_PANEL1x1);
 		} catch(e) {
-			Android.makeNewToast("Not found 1x1 sized panel or folder in it", true).show();
+			Android.makeNewToast("Not found 1x1 sized panel or folder in it", false).show();
 			return;
 		}
 		cache[FOLDER_IN_PANEL1x1] = folder;
@@ -119,11 +120,21 @@ function getValues() {
 			statusBarHeight = dtHeight / LONG;
 			subFolderXfromLeft = ( startPopupPos == RIGHT ? dtWidth - startPopupWidth  : 0 );
 			startButtonPopupYfromTop = Math.round(dtHeight - startPopupHeight - statusBarHeight);
-			folder1x1XfromLeft = Math.round( startPopupPos == RIGHT ? 0: dtWidth - fc.getWidth() );
-			folder1x1YfromTop  = Math.round( dtHeight - statusBarHeight - fc.getHeight() );
+			// Uninitialized problem hack.
+			try {
+				folder1x1XfromLeft = Math.round( startPopupPos == RIGHT ? 0: dtWidth - fc.getWidth() );
+				folder1x1YfromTop  = Math.round( dtHeight - statusBarHeight - fc.getHeight() );
+			}
+			catch(e) {
+				return EXIT_SCRIPT;			
+			}			
 		}
 		else {
 			tag = JSON.parse( tag );
+			if ( tag[LH] == undefined ) {
+				Android.makeNewToast("Please run 'Util.arrangeTemplate' script in landscape.", false).show();
+				return EXIT_SCRIPT;			
+			}			
 			statusBarHeight = parseFloat(tag[LH]);
 			subFolderXfromLeft = parseInt(tag[LX]);
 			startButtonPopupYfromTop = parseInt(tag[LY]);	
@@ -142,7 +153,9 @@ function getValues() {
 function main() {
 
 	getObjects();
-	getValues();
+	if ( EXIT_SCRIPT == getValues() ) {
+		return;
+	}
 
 	// 1. arrange START popup folder's Y.
 	startButton.getProperties().edit().setInteger(F_WY, startButtonPopupYfromTop).commit();

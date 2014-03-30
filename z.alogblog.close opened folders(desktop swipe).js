@@ -4,7 +4,7 @@
 
 // Can be customizable.
 var __AUTO_OPEN__ = true;
-var __DELAY__ = 50;
+var __DELAY__ = 100;	// Time to scroll up/dwon fully, in order to decide scroll direction.
 
 /*
 getCurrentDesktop
@@ -31,6 +31,7 @@ var MOVE_SBAR_ONLY = 'mSbarO';
 var START_BUTTON = 'sBtn';
 var STATUS_BAR = 'sBar';
 var STATUS_BAR_STATE = 'sBarState';
+var STATUS_BAR_NEXT_STATE = 'sBarNextState';
 var FOLDER_IN_PANEL1x1 = 'folder1x1';
 var PKG = 'alogblog';
 
@@ -38,10 +39,17 @@ var PKG = 'alogblog';
 var FOLDER_TYPE = 'Folder';
 var PANEL_TYPE = 'Panel';
 
+// Prohibit re-run of this script on position changing.
+if ( self.reentry > 0 ) {
+	return;
+}
+self.reentry = 1;	
+
+
 setTimeout( function() {
 	var dt, desktop_height, statusBar, startButton, statusBarContainer;
 	var i, j, it, it2, it3, items, panelFolder, cache;
-
+	
 	if ( self[PKG] == null ) {
 		self[PKG] = new Object();
 	}
@@ -69,9 +77,9 @@ setTimeout( function() {
 
 	desktop_height = dt.getHeight();
 	statusBarContainer = statusBar.getContainer();
-	cache[STATUS_BAR_STATE] =
-		( dt.translateIntoScreenCoordY(statusBar.getPositionY()) == desktop_height ? DOWN : UP );
 
+	cache[STATUS_BAR_STATE] = 
+		( dt.translateIntoScreenCoordY(statusBar.getPositionY()) == desktop_height ? DOWN : UP );
 	if ( cache[STATUS_BAR_STATE] == DOWN ) {
 		// close START folder and its subfolder
 		if ( startButton.isOpen() ) {
@@ -91,7 +99,7 @@ setTimeout( function() {
 			it = items.getAt(i);
 			if ( it.getType() == PANEL_TYPE ) {
 				panelFolder = it.getContainer().getItemByLabel(FOLDER_IN_PANEL1x1);
-				if ( panelFolder ) {
+				if ( panelFolder && panelFolder.isOpen() ) {
 					panelFolder.close();
 				}
 				break; // Assume only one 1x1 panel.
@@ -106,4 +114,8 @@ setTimeout( function() {
 			cache[MOVE_SBAR_ONLY] = false;
 		}
 	}
+	
+	// Prohibit re-run of this script on position changing.
+	setTimeout( function() { self.reentry = 0; }, 500 );
+
 }, __DELAY__);

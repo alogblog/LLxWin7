@@ -14,6 +14,7 @@
 // Desktop Grid. ( 10x6 or 6x10 )
 var LONG = 10;
 var SHORT = 6;
+var EPS_Y = 5;
 
 var RIGHT = 0;
 var LEFT = 1;
@@ -33,6 +34,7 @@ var LY2 = 'Ly2';
 var WIN7_DESKTOP = 'w7dt';
 var START_BUTTON = 'sBtn';
 var STATUS_BAR = 'sBar';
+var SSTATUS_BAR = 'ssBar';	// 8x1 or 4x1 sub panel in statusbar.
 var PANEL1x1 = 'date';
 var FOLDER_IN_PANEL1x1 = 'folder1x1';
 var PKG = 'alogblog';
@@ -75,8 +77,12 @@ function initialize() {
 	dtWidth = dt.getWidth();
 	statusBarHeight = dt.getCellHeight();
 
-	statusBarContainer.getProperties().edit().setBoolean( DUAL_POSITION, true ).commit();	
+	statusBarContainer.getProperties().edit().setBoolean( DUAL_POSITION, true ).commit();
 	
+	// Uninitialed folder object problem hack.(open folders beforehand).
+	//dt.setPosition(0, Math.floor( dt.getPositionY() ) < EPS_Y ? dt.getCellHeight() : 0 );
+	dt.setPosition(0, dt.getCellHeight() );
+	datePanel.getContainer().getItemByLabel(FOLDER_IN_PANEL1x1).open();
 }
 
 function getInputFromUser() {
@@ -110,7 +116,13 @@ function arrangeStartButtonAndDatePanel() {
 		// Locate START/Date button ITSELF.
 		startButton.setCell( 0, 0, 1, 1 );
 		datePanel.setCell( colNum-1, 0, colNum, 1 );
-	
+/*
+var dc = datePanel.getCell();
+var sc = startButton.getCell();
+alert( dc + "/" + sc + '/' + colNum);
+datePanel.setCell( 1, 0, 2, 1 );
+startButton.setCell( 2, 0, 3, 1 );
+*/
 		dirIn = SLIDE_FROM_LEFT;
 		dirOut = SLIDE_FROM_RIGHT;
 		fwAH = 'CUSTOM'
@@ -152,9 +164,10 @@ function arrangeFolderIn1x1Panel() {
 	items = statusBarContainer.getItems();
 	for ( i=0; i<items.getLength(); i++ ) {
 		it = items.getAt(i);
-		if ( it.getType() == PANEL_TYPE ) {
+		if ( it.getType() == PANEL_TYPE && it.getLabel() != SSTATUS_BAR ) {
 			folder1x1 = it.getContainer().getItemByLabel(FOLDER_IN_PANEL1x1);
 			if ( folder1x1 ) {
+				folder1x1.open();	// Uninitialized problem hack.
 				fc = folder1x1.getContainer();
 				folder1x1XfromLeft = Math.round( startPopupPos == RIGHT ? 0: dtWidth - fc.getWidth() );
 				folder1x1YfromTop  = Math.round( dtHeight - statusBarHeight - fc.getHeight() );
@@ -209,6 +222,9 @@ function saveDataToItem() {
 		tag[LY2] = self[PKG][LY2] = folder1x1YfromTop;
 	}
 	statusBar.setTag( JSON.stringify(tag) );
+	
+	dt.setPosition(0, 0 );
+	datePanel.getContainer().getItemByLabel(FOLDER_IN_PANEL1x1).close();	
 }
 
 function main() {
