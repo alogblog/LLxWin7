@@ -39,13 +39,6 @@ var PKG = 'alogblog';
 var FOLDER_TYPE = 'Folder';
 var PANEL_TYPE = 'Panel';
 
-// Prohibit re-run of this script on position changing.
-if ( self.reentry > 0 ) {
-	return;
-}
-self.reentry = 1;	
-
-
 setTimeout( function() {
 	var dt, desktop_height, statusBar, startButton, statusBarContainer;
 	var i, j, it, it2, it3, items, panelFolder, cache;
@@ -114,8 +107,4 @@ setTimeout( function() {
 			cache[MOVE_SBAR_ONLY] = false;
 		}
 	}
-	
-	// Prohibit re-run of this script on position changing.
-	setTimeout( function() { self.reentry = 0; }, 500 );
-
 }, __DELAY__);

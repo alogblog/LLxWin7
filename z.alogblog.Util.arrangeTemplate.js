@@ -223,7 +223,7 @@ function saveDataToItem() {
 	}
 	statusBar.setTag( JSON.stringify(tag) );
 	
-	dt.setPosition(0, 0 );
+	dt.setPosition(0, 0, 1, true);	
 	datePanel.getContainer().getItemByLabel(FOLDER_IN_PANEL1x1).close();	
 }
 
