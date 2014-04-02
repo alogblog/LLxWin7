@@ -184,9 +184,9 @@ function main() {
 		// move up the desktop.
 		dt.setPosition(0, statusBarHeight);
 	}
-	// 4. 4.1 is a hack.
+	// 4.
 	sStatusBarContainer.setPosition(
-		startButton.getCell().getLeft() ==  0 ? 0 : sStatusBarContainer.getCellWidth()*4.1, 0, 1, true);
+		startButton.getCell().getLeft() ==  0 ? 0 : sStatusBarContainer.getCellWidth()*4, 0, 1, true);
 }
 
 main();
