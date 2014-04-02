@@ -1,27 +1,9 @@
-'use strict';
-
 // close opened folders(desktop swipe).
+// v.1.0
 
 // Can be customizable.
 var __AUTO_OPEN__ = true;
 var __DELAY__ = 100;	// Time to scroll up/dwon fully, in order to decide scroll direction.
-
-/*
-getCurrentDesktop
-getHeight
-getItemByLabel
-getContainer
-getPositionY
-translateIntoScreenCoordY
-getLength
-getAt
-getType
-isOpen
-getItems
-close
-open
-setTimeout
-*/
 
 // Constants.
 var DOWN = 0;

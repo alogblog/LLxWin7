@@ -1,6 +1,5 @@
-'use strict';
-
 // to PORTRAIT.
+// v.1.0
 
 // Constants.
 var SHORT = 6;	// amount of cell in height.
@@ -156,7 +155,7 @@ function main() {
 	if ( EXIT_SCRIPT == getValues() ) {
 		return;
 	}
-
+		
 	// 1. arrange START popup folder's Y.
 	startButton.getProperties().edit().setInteger(F_WY, startButtonPopupYfromTop).commit();
 
@@ -185,10 +184,9 @@ function main() {
 		// move up the desktop.
 		dt.setPosition(0, statusBarHeight);
 	}
-
-	// 4.
+	// 4. 4.1 is a hack.
 	sStatusBarContainer.setPosition(
-		startButton.getCell().getLeft() ==  0 ? 0 : sStatusBarContainer.getCellWidth()*4, 0);
+		startButton.getCell().getLeft() ==  0 ? 0 : sStatusBarContainer.getCellWidth()*4.1, 0, 1, true);
 }
 
 main();

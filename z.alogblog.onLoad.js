@@ -1,4 +1,5 @@
 // Desktop 'Windows7' arrangement on LL app load
+// v.1.0
 
 setTimeout( function() {
 	var dt = LL.getCurrentDesktop();

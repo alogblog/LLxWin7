@@ -1,6 +1,5 @@
-'use strict';
-
 // Util.arrangeTemplate.
+// v.1.0
 
 ////////////////////////////////////////////////////////////////
 // - In both landscape and portrait mode, this script must be run.

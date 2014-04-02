@@ -1,4 +1,5 @@
 // win7 go Home.
+// v.1.0
 
 // Constants.
 var EPS_Y = 5;

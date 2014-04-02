@@ -1,4 +1,5 @@
 // close opened sibling subfolder.
+// v.1.0
 
 var item = LL.getEvent().getItem();
 var id = item.getId();

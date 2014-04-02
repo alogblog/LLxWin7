@@ -1,8 +1,8 @@
 // Utils.to1x1gridPanel.
+// v.1.0
 
-//var panelName = prompt( ' Name of  panel to be converted into 1x1 grid size.', 'date');
+var panelName = 'date';	//prompt( ' Name of  panel to be converted into 1x1 grid size.', 'date');
 
-var panelName = 'date';
 var dt = LL.getCurrentDesktop();
 var statusBar = dt.getItemByLabel('sBar');
 var panel = statusBar.getContainer().getItemByLabel( panelName );

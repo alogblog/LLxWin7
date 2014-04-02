@@ -1,6 +1,5 @@
-'use strict';
-
 // to LANDSCPE.
+// v.1.0
 
 // Constants.
 var LONG = 10;	// amount of cell in height.

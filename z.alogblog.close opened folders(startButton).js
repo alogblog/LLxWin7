@@ -1,4 +1,5 @@
 // close opend folders(startButton).
+// v.1.0
 
 var startButton = LL.getEvent().getItem();
 
