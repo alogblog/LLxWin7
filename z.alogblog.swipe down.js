@@ -1,5 +1,5 @@
 // desktop swipe down.
-// v.1.0
+// v.1.1
 
 // Constants.
 var DOWN = 0;
@@ -25,24 +25,33 @@ cache = self[PKG];
 
 if ( cache[WIN7_DESKTOP] ) {
 	dt = cache[WIN7_DESKTOP];
-	statusBar = cache[STATUS_BAR];
-	startButton = cache[START_BUTTON];
 }
 else {
 	dt = LL.getCurrentDesktop();
+	cache[WIN7_DESKTOP] = dt;	
+}
+if ( cache[STATUS_BAR] ) {
+	statusBar = cache[STATUS_BAR];
+}
+else {
 	statusBar = dt.getItemByLabel(STATUS_BAR);
+	cache[STATUS_BAR] = statusBar;
+}
+if ( cache[START_BUTTON] ) {
+	startButton = cache[START_BUTTON];
+}
+else {
 	try {
 		startButton = statusBar.getContainer().getItemByLabel(START_BUTTON);
 	} catch(e) {
-		Android.makeNewToast("Not found 'START button'", true).show();
+		Android.makeNewToast("Not found 'START button'", false).show();
 		return;
 	}
-	
-	cache[WIN7_DESKTOP] = dt;
-	cache[STATUS_BAR] = statusBar;
 	cache[START_BUTTON] = startButton;
 }
+	
 
+	
 cache[STATUS_BAR_STATE] = DOWN;
 dt.setPosition(0, 0, 1, true);
 

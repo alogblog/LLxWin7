@@ -1,5 +1,5 @@
 // desktop swipe up.
-// v.1.0
+// v.1.1
 
 // Can be customizable.
 var __AUTO_OPEN__ = true;
@@ -23,18 +23,21 @@ cache = self[PKG];
 
 if ( cache[WIN7_DESKTOP] ) {
 	dt = cache[WIN7_DESKTOP];
-	startButton = cache[START_BUTTON];
 }
 else {
 	dt = LL.getCurrentDesktop();
+	cache[WIN7_DESKTOP] = dt;	
+}
+if ( cache[START_BUTTON] ) {
+	startButton = cache[START_BUTTON];
+}
+else {
 	try {
 		startButton = dt.getItemByLabel(STATUS_BAR).getContainer().getItemByLabel(START_BUTTON);
 	} catch(e) {
-		Android.makeNewToast("Not found 'START button'", true).show();
+		Android.makeNewToast("Not found 'START button'", false).show();
 		return;
 	}
-	
-	cache[WIN7_DESKTOP] = dt;
 	cache[START_BUTTON] = startButton;
 }
 
